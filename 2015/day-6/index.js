@@ -8,16 +8,17 @@ let litCount = 0;
 
 const actions = {
   on: (row, index) => {
-    if (row[index] == 0) litCount++;
-    row[index] = 1;
+    litCount++;
+    row[index]++;
   },
   off: (row, index) => {
-    if (row[index] == 1) litCount--;
-    row[index] = 0;
+    if (row[index] == 0) return;
+    litCount--;
+    row[index]--;
   },
   toggle: (row, index) => {
-    litCount += row[index] == 0 ? 1 : -1;
-    row[index] = row[index] == 0 ? 1 : 0;
+    litCount += 2;
+    row[index] += 2;
   },
 };
 
