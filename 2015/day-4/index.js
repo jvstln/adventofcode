@@ -6,10 +6,12 @@ let MD5;
 
 // Note: the following code takes reasonable amount of time to execute
 // For the input below, it took ~51.516 seconds. It could take less if you reduce the coolDownInMs variable
+// For part 2 (checking for hash.startsWith 6 zeros), it took ~47.220 seconds with the below configuration with each result being 117946 and 3938038 respectively
+// Used process.hrtime() to measure execution time
 let input = "ckczppom";
 let startingPoint = 0;
-let batchCount = 5000;
-let coolDownInMs = 2000;
+let batchCount = 50_000;
+let coolDownInMs = 100;
 
 let timerID = setTimeout(function batch() {
   console.log(
@@ -19,7 +21,7 @@ let timerID = setTimeout(function batch() {
 
   for (i = startingPoint; i < startingPoint + batchCount; i++) {
     hash = MD5(input + i);
-    if (hash.slice(0, 5) == "00000") result = i;
+    if (hash.startsWith("000000")) result = i;
   }
 
   if (!result) {
