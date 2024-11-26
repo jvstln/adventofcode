@@ -1,0 +1,19 @@
+{
+  "name": "adventofcode",
+  "version": "1.0.0",
+  "description": "An online coding challenge",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/jvstln/adventofcode.git"
+  },
+  "author": "jvstln",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jvstln/adventofcode/issues"
+  },
+  "homepage": "https://github.com/jvstln/adventofcode#readme"
+}
