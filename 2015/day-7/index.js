@@ -3,7 +3,9 @@ import { readFile } from "fs/promises";
 let input = await readFile(`${import.meta.dirname}/input.txt`, "utf8");
 input = new Set(input.split("\n"));
 
-const signals = {};
+const signals = {
+  b: 16076, // manually set to signals.a from part 1
+};
 const operators = {
   AND: (a, b) => a & b & 0xffff,
   OR: (a, b) => a | (b & 0xffff),
@@ -26,6 +28,7 @@ function getTokens(equation) {
 
 function connectWire(equation) {
   const { output, op, a, b } = getTokens(equation);
+  if (signals[output]) return;
 
   let computedA = isNaN(a) ? signals[a] : Number(a);
   let computedB = isNaN(b) ? signals[b] : Number(b);
