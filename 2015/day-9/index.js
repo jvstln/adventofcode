@@ -71,4 +71,5 @@ let possibleTotalDistances = possibleRoutes.map((route) =>
   route.distances.reduce((sum, d) => sum + d)
 );
 
-console.log(Math.min.apply(null, possibleTotalDistances));
+console.log(Math.min.apply(null, possibleTotalDistances)); // Part 1: distance of the shortest route
+console.log(Math.max.apply(null, possibleTotalDistances)); // Part 2: distance of the longest route
