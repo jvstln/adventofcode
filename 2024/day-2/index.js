@@ -19,7 +19,23 @@ function isSafe(report) {
 
 let safeCount = 0;
 for (const report of input.split("\n")) {
-  if (isSafe(report)) safeCount++;
+  if (isSafe(report)) {
+    safeCount++;
+    continue;
+  }
+
+  // Else dampen the problem
+  const isDampenedSafe = report
+    .split(" ")
+    .map((_, index, arr) =>
+      arr
+        .slice(0, index)
+        .concat(arr.slice(index + 1))
+        .join(" ")
+    )
+    .some((dampenedReport) => isSafe(dampenedReport));
+
+  if (isDampenedSafe) safeCount++;
 }
 
 console.log(safeCount);
