@@ -11,11 +11,14 @@ function transverseAndSum(data) {
   }
 
   if (typeof data == "object") {
-    return Object.values(data).forEach((item) => transverseAndSum(item));
+    const values = Object.values(data);
+    if (values.includes("red")) return;
+    return values.forEach((item) => transverseAndSum(item));
   }
 
   if (isFinite(data)) sum += data;
 }
 
 transverseAndSum(input);
-console.log(sum);
+console.log(sum); // Part 2
+// Checkout the previous commit for part 1
