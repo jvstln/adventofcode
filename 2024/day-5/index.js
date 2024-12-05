@@ -1,37 +1,6 @@
 import { readFile } from "fs/promises";
 const input = await readFile(`${import.meta.dirname}/input.txt`, "utf8");
 
-// const input = `
-// 47|53
-// 97|13
-// 97|61
-// 97|47
-// 75|29
-// 61|13
-// 75|53
-// 29|13
-// 97|29
-// 53|29
-// 61|53
-// 97|53
-// 61|29
-// 47|13
-// 75|47
-// 97|75
-// 47|61
-// 75|61
-// 47|29
-// 75|13
-// 53|13
-
-// 75,47,61,53,29
-// 97,61,53,29,13
-// 75,29,13
-// 75,97,47,61,53
-// 61,13,29
-// 97,13,75,29,47
-// `;
-
 // Parse input
 let [rules, updates] = input.split("\n\n").map((x) => x.trim().split("\n"));
 
@@ -45,6 +14,7 @@ rules.forEach((rule) => {
 
 // Solve the readme.md problem
 let validSum = 0;
+let invalidSum = 0;
 updates.forEach((update) => {
   update = update.split(",");
 
@@ -57,7 +27,17 @@ updates.forEach((update) => {
 
   if (isUpdateValid) {
     validSum += Number(update[(update.length - 1) / 2]);
+  } else {
+    let orderedUpdate = orderUpdate(update);
+    invalidSum += Number(orderedUpdate[(orderedUpdate.length - 1) / 2]);
   }
 });
 
-console.log(validSum);
+function orderUpdate(update) {
+  return update.toSorted((a, b) =>
+    (lookup[a] ?? []).includes(b.toString()) ? -1 : 1
+  );
+}
+
+console.log(validSum); // Part 1
+console.log(invalidSum); // Part 2
