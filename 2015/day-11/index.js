@@ -27,4 +27,11 @@ while (!validatePassword(input)) {
   input = nextSequence(input);
 }
 
-console.log(input);
+console.log(input); // Part One
+
+input = nextSequence(input);
+while (!validatePassword(input)) {
+  input = nextSequence(input);
+}
+
+console.log(input); // Part Two
