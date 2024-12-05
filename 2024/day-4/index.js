@@ -3,7 +3,7 @@ const input = await readFile(`${import.meta.dirname}/input.txt`, "utf8");
 
 const inputGrid = input.split("\n").map((line) => [...line]);
 
-function getAdjacentString(cord, length, direction) {
+function getXAdjacentString(cord, offset, direction) {
   // Direction can be top, topright, right, topleft,  bottom...
   // cord is in form of [x, y] cordinates
   let x = 0,
@@ -14,12 +14,13 @@ function getAdjacentString(cord, length, direction) {
   if (direction.endsWith("left")) x--;
   if (direction.endsWith("right")) x++;
 
-  let result = "";
-  for (let i = 0; i < length; i++) {
-    result += inputGrid[cord[1] + y * i]?.[cord[0] + x * i] ?? "";
+  let result = [inputGrid[cord[1]]?.[cord[0]] ?? ""];
+  for (let i = 1; i <= offset; i++) {
+    result.unshift(inputGrid[cord[1] + y * i]?.[cord[0] + x * i] ?? "");
+    result.push(inputGrid[cord[1] + y * -i]?.[cord[0] + x * -i] ?? "");
   }
 
-  return result;
+  return result.join("");
 }
 
 function lookForString(string) {
@@ -27,20 +28,20 @@ function lookForString(string) {
 
   inputGrid.forEach((row, y) => {
     row.forEach((char, x) => {
-      if (char == string[0]) {
-        [
-          "top",
-          "topright",
-          "right",
-          "bottomright",
-          "bottom",
-          "bottomleft",
-          "left",
-          "topleft",
-        ].forEach((direction) => {
-          let adjString = getAdjacentString([x, y], string.length, direction);
-          if (adjString == string) stringCount++;
-        });
+      if (char == string[(string.length - 1) / 2]) {
+        let args = [[x, y], (string.length - 1) / 2];
+        let diagonal1 = getXAdjacentString(...args, "topright");
+        let diagonal2 = getXAdjacentString(...args, "topleft");
+
+        let isDiagonalEqual =
+          diagonal1 == diagonal2 ||
+          diagonal1 == [...diagonal2].reverse().join("");
+        let isDiagonalSearchString =
+          diagonal1 == string || [...diagonal1].reverse().join("") == string;
+
+        if (isDiagonalEqual && isDiagonalSearchString) {
+          stringCount++;
+        }
       }
     });
   });
@@ -48,4 +49,5 @@ function lookForString(string) {
   return stringCount;
 }
 
-console.log(lookForString("XMAS")); // Part 1
+console.log(lookForString("MAS")); // Part 2
+// For part 1, checkout the previous git commit
