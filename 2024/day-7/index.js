@@ -1,10 +1,11 @@
 import { readFile } from "fs/promises";
 let input = await readFile(`${import.meta.dirname}/input.txt`, "utf8");
 
-const operations = ["+", "*"];
+const operations = ["+", "*", "||"];
 const opFunc = {
   "+": (a, b) => a + b,
   "*": (a, b) => a * b,
+  "||": (a, b) => Number(String(a) + String(b)),
 };
 
 function generateCombinations(numbers) {
@@ -35,4 +36,5 @@ for (const line of input.trim().split("\n")) {
   }
 }
 
-console.log(total); // Part 1
+console.log(total); // Part 2. nb: It takes some time
+// Check the previous commit for part 1
