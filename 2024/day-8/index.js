@@ -5,6 +5,7 @@ input = input.trim().split("\n");
 
 const antennas = {};
 const antiNodes = new Set();
+const repeatingAntiNodes = new Set();
 
 input.forEach((line, colIndex) => {
   line.split("").forEach((antenna, rowIndex) => {
@@ -13,7 +14,12 @@ input.forEach((line, colIndex) => {
     if (!antennas[antenna]) antennas[antenna] = [];
 
     antennas[antenna].forEach((pos) => {
-      createAntiNode(pos, { x: rowIndex, y: colIndex }, antenna);
+      const currentPos = { x: rowIndex, y: colIndex };
+      const vector = { x: pos.x - rowIndex, y: pos.y - colIndex };
+
+      createAntiNode(pos, currentPos); // For Part 1
+      transversePath(currentPos, vector); // For Part 2
+      transversePath(currentPos, { x: -vector.x, y: -vector.y }); // For Part 2.
     });
 
     antennas[antenna].push({ x: rowIndex, y: colIndex });
@@ -43,6 +49,19 @@ function createAntiNode(pos1, pos2) {
   }
 }
 
+function transversePath(startingPoint, increment) {
+  if (isWithinMap(startingPoint)) {
+    repeatingAntiNodes.add(`${startingPoint.x},${startingPoint.y}`);
+    transversePath(
+      {
+        x: startingPoint.x + increment.x,
+        y: startingPoint.y + increment.y,
+      },
+      increment
+    );
+  }
+}
+
 function isWithinMap(pos) {
   return (
     pos.x >= 0 && pos.x < input[0].length && pos.y >= 0 && pos.y < input.length
@@ -50,3 +69,4 @@ function isWithinMap(pos) {
 }
 
 console.log(antiNodes.size); // Part 1
+console.log(repeatingAntiNodes.size); // Part 2
